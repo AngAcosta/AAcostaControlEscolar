@@ -1,0 +1,86 @@
+﻿@model ML.AlumnoMateria
+@{
+    ViewBag.Title = "GetAllMateria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <h2>MateriasAsignadas</h2>
+    </div>
+    <hr />
+
+    @using (Html.BeginForm("GetAllMateria", "AlumnoMateria", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Alumno.IdAlumno, new { @class = "hidden" })
+                @Html.TextBoxFor(model => model.Alumno.IdAlumno, new { @class = "hidden form-control" })
+                @Html.ValidationMessageFor(model => model.Alumno.IdAlumno)
+                @*hidden*@
+            </div>
+
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Alumno.Nombre)
+                @Html.TextBoxFor(model => model.Alumno.Nombre, new { @class = "form-control", @id = "txtNombre" })
+                @Html.ValidationMessageFor(model => model.Alumno.Nombre)
+            </div>
+
+
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Alumno.ApellidoPaterno)
+                @Html.TextBoxFor(model => model.Alumno.ApellidoPaterno, new { @class = "form-control", @id = "txtApellidoPaterno" })
+                @Html.ValidationMessageFor(model => model.Alumno.ApellidoPaterno)
+            </div>
+
+
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Alumno.ApellidoMaterno)
+                @Html.TextBoxFor(model => model.Alumno.ApellidoMaterno, new { @class = "form-control", @id = "txtApellidoMaterno" })
+                @Html.ValidationMessageFor(model => model.Alumno.ApellidoMaterno)
+            </div>
+
+        </div>
+        <br />
+    }
+    <hr />
+
+    <div class="row">
+        @if (Model.AlumnoMaterias != null)
+        {
+
+            //tabla
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+
+                        <td class="text-center" style=" font-weight:bold;">Seleccionar</td>
+                        <td class="hidden">IdAlumnoMateria</td>
+                        <td class="text-center" style=" font-weight:bold">Materia</td>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (ML.AlumnoMateria alumnoMateria in Model.AlumnoMaterias)
+                    {
+                        <tr>
+                            <td class="text-center"><input class="form-check-input" type="checkbox" name="AlumnosMaterias" id="flexSwitchCheckDefault"></td>
+                            <td class="hidden">@alumnoMateria.IdAlumnoMateria</td>
+                            <td>@alumnoMateria.Materia.Nombre,@alumnoMateria.Materia.Costo</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="text-right">
+                <input class="btn btn-success" type="submit" value="Actualizar" />
+                <a class="btn btn-danger" href="@Url.Action("AlumnoMateriaGetByIdAlumno", "AlumnoMateria", new { IdAlumno = Model.Alumno.IdAlumno })"> Regresar</a>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert">Ocurrio un error al realizar la consulta </div>
+        }
+    </div>
+</div>

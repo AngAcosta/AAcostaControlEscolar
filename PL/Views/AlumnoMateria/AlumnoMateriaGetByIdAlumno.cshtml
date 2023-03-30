@@ -1,0 +1,92 @@
+﻿@model ML.AlumnoMateria
+@*agregar es la clase de las propiedades que vas a usar y se coloca aqui*@
+@{
+    ViewBag.Title = "AlumnoMateriaGetByIdAlumno";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*todo lo que esta arriba se debe de quedar igual no se mueve*@
+<div class="container">
+    <div class="row">
+        <h2>MateriasAsignadas</h2>
+    </div>
+    <hr />
+
+    @using (Html.BeginForm("AlumnoMateriaGetByIdAlumno", "AlumnoMateria", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Alumno.IdAlumno, new { @class = "hidden" })
+                @Html.TextBoxFor(model => model.Alumno.IdAlumno, new { @class = "hidden form-control" })
+                @Html.ValidationMessageFor(model => model.Alumno.IdAlumno)
+                @*hidden*@
+            </div>
+
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Alumno.Nombre)
+                @Html.TextBoxFor(model => model.Alumno.Nombre, new { @class = "form-control", @id = "txtNombre" })
+                @Html.ValidationMessageFor(model => model.Alumno.Nombre)
+            </div>
+
+
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Alumno.ApellidoPaterno)
+                @Html.TextBoxFor(model => model.Alumno.ApellidoPaterno, new { @class = "form-control", @id = "txtApellidoPaterno" })
+                @Html.ValidationMessageFor(model => model.Alumno.ApellidoPaterno)
+            </div>
+
+
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Alumno.ApellidoMaterno)
+                @Html.TextBoxFor(model => model.Alumno.ApellidoMaterno, new { @class = "form-control", @id = "txtApellidoMaterno" })
+                @Html.ValidationMessageFor(model => model.Alumno.ApellidoMaterno)
+            </div>
+
+        </div>
+        <br />
+
+        <div class="col-md-12">
+            <a class="btn btn-success glyphicon glyphicon-plus " href="@Url.Action("GetAllMateria", "AlumnoMateria", Model.Alumno)"></a>
+        </div>
+        <br />
+    }
+    <hr />
+
+    <div class="row">
+        @if (Model.AlumnoMaterias != null)
+        {
+
+            //tabla
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <td class="text-center" style=" font-weight:bold;">Editar</td>
+
+                        <td class="hidden">IdAlumnoMateria</td>
+                        <td class="text-center" style=" font-weight:bold">Materia</td>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (ML.AlumnoMateria alumnoMateria in Model.AlumnoMaterias)
+                    {
+                        <tr>
+
+
+                            <td class="hidden">@alumnoMateria.IdAlumnoMateria</td>
+                            <td>@alumnoMateria.Materia.Nombre</td>
+
+                            <td class="text-center"><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "AlumnoMateria", new { IdAlumnoMateria = alumnoMateria.IdAlumnoMateria })" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"></a></td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert">Ocurrio un error al realizar la consulta </div>
+        }
+    </div>
+</div>

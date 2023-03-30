@@ -1,0 +1,46 @@
+﻿@model ML.Alumno
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <h2>AlumnoMateria</h2>
+    </div>
+    <hr />
+
+    <div class="row">
+        @if (Model.Alumnos != null)
+        {
+            //tabla
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <td class="text-center" style=" font-weight:bold;">Editar</td>
+
+                        <td class="hidden">IdAlumno</td>
+                        <td class="text-center" style=" font-weight:bold">Nombre</td>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (ML.Alumno alumno in Model.Alumnos)
+                    {
+                        <tr>
+                            <td class="text-center"><a class="btn btn-info glyphicon glyphicon-edit" href="@Url.Action("AlumnoMateriaGetByIdAlumno", "AlumnoMateria", new { IdAlumno = alumno.IdAlumno })"></a></td>
+
+                            <td class="hidden">@alumno.IdAlumno</td>
+                            <td>@alumno.Nombre,@alumno.ApellidoPaterno,@alumno.ApellidoMaterno </td>
+                        
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert">Ocurrio un error al realizar la consulta </div>
+        }
+    </div>
+</div>
